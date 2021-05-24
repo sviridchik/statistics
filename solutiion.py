@@ -1,7 +1,7 @@
 import random
 import numpy as np
 import matplotlib.pyplot as plt
-n = int(input())
+# n = int(input())
 a = -1
 b = 5
 
@@ -34,7 +34,7 @@ def F(y):
     else:
         return (1/6)*(np.cbrt(y)+1)
 # res_h_y = []
-def get_imeric_func(res):
+def get_imeric_func(res,n):
     data = {}
     for index in range(len(res)):
         el = res[index]
@@ -58,6 +58,6 @@ def get_imeric_func(res):
 
 
 
-res = get_n_numbers(n)
-get_imeric_func(res)
+# res = get_n_numbers(n)
+# get_imeric_func(res,n)
 
