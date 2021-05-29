@@ -1,7 +1,7 @@
 import random
 import numpy as np
 import matplotlib.pyplot as plt
-n = int(input())
+# n = int(input())
 a = -6
 b = -2
 a_y = -1
@@ -71,7 +71,7 @@ def get_imeric_func(res,n):
     plt.show()
 
 
-
-res = get_n_numbers(n)
-get_imeric_func(res,n)
+#
+# res = get_n_numbers(n)
+# get_imeric_func(res,n)
 

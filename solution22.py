@@ -33,10 +33,10 @@ def get_m(n):
         else:
             return M3
 def f(y):
-    if y<-1 or y>125:
+    if y<a_y or y>b_y:
         return 0
     else:
-        return (1/18)*1/np.power(np.power(y,1/3),2)
+        return 1/(4*y**2)
 
 M = get_m(n)
 h = abs(res[0] - res[-1]) / M
@@ -83,7 +83,7 @@ fff.append(ff[-1])
 axs.step(bins, fff, "g-o", where=where_set[0])
 axs.grid()
 
-xxx = np.linspace(-1, 125, 100)
+xxx = np.linspace(a_y, b_y, 10000)
 # print(xxx)
 x_poly = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
 plt.plot(x_poly, ff, 'y', label="polygon")

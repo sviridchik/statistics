@@ -3,6 +3,7 @@ from math import sqrt, log10
 from solutiion import *
 
 n = int(input())
+# n = 100
 res = get_n_numbers(n)
 # print(res)
 
@@ -31,10 +32,10 @@ def get_m(n):
         else:
             return M3
 def f(y):
-    if y<-1 or y>125:
+    if y<a_y or y>b_y:
         return 0
     else:
-        return (1/18)*1/(y**(2/3))
+        return 1/(4*y**2)
 
 M = get_m(n)
 h = abs(res[0] - res[-1]) / M
@@ -77,7 +78,7 @@ x_poly = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
 plt.plot(x_poly, ff, 'y', label="polygon")
 
 plt.scatter(x_poly, ff)
-xxx = np.linspace(0.1, 125, 10000)
+xxx = np.linspace(a_y, b_y, 100)
 yyy = [f(ell) for ell in xxx]
 
 plt.plot(xxx, yyy, 'm', label="analytic function")
