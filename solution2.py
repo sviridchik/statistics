@@ -1,13 +1,11 @@
 from math import sqrt, log10
-import matplotlib.pyplot as plt
-import numpy as np
 
 from solutiion import *
 
 n = int(input())
 res = get_n_numbers(n)
 # print(res)
-#
+
 # res = [-6.237 ,-6.229 ,-5.779, -5.139, -4.950 ,-4.919 ,-4.636, -4.560, -4.530, -4.526 ,-4.523 ,-4.511,
 # -4.409 ,-4.336, -4.259, -4.055, -4.044, -4.006, -3.972, -3.944 ,-3.829 ,-3.794, -3.716, -3.542,
 # -3.541 ,-3.431, -3.406, -3.384, -3.307, -3.181, -3.148, -3.124, -3.116, -2.892, -2.785, -2.734,
@@ -36,64 +34,51 @@ def f(y):
     if y<-1 or y>125:
         return 0
     else:
-        return (1/18)*1/np.power(np.power(y,1/3),2)
+        return (1/18)*1/(y**(2/3))
 
 M = get_m(n)
 h = abs(res[0] - res[-1]) / M
 h = round(h,4)
-result = []
+# result = []
 j = 0
 a_i = res[0]
-b_i = (res[M-1]+res[M])/2
+bb = None
 bins = []
 ff = []
-v_i = n / M
 bins.append(a_i)
-bb = None
-for i in range(1,M):
-    h = abs(a_i-b_i)
+for i in range(M):
+    sol = []
+
+    b_i = a_i + h
+    v_i = 0
+    sol.append(a_i)
+    sol.append( b_i)
+    sol.append( v_i)
+    for index in range(len(res)):
+        if res[index] >= a_i and res[index] <= b_i:
+            v_i += 1
     f_i = v_i / (h * n)
+    sol.append(f_i)
     ff.append(f_i)
-    ss = "i = {:.1f}\tAi = {:.4f}\t Bi = {:.4f}\tvi = {}\th = {:.4f}\tfi = {:.4f}\t".format(round(i,4),a_i,round(b_i,4),round(v_i,4),round(h,4),round(f_i,4))
+    ss = "i = {}\tAi = {}\t Bi = {}\tvi = {}\th = {}\tfi = {}\t".format(round(i,4),round(a_i,4),round(b_i,4),round(v_i,4),round(h,4),round(f_i,4))
     print(ss)
     bins.append(b_i)
     a_i = b_i
-    if (i+1)*M+1 > len(res)-1:
-        b_i = res[-1]
-    else:
-        b_i = (res[(i+1)*M-1]+res[(i+1)*M])/2
-    bb = b_i
-if res[-1] != bins[-1]:
-    i = len(bins)
-    b_i = res[-1]
-    h = abs(a_i - b_i)
-    f_i = v_i / (h * n)
-    ff.append(f_i)
-    # print("aaaaa")
-    ss = "i = {:.1f}\tAi = {:.4f}\t Bi = {:.4f}\tvi = {}\th = {:.4f}\tfi = {:.4f}\t".format(round(i, 4), a_i, round(b_i, 4),
-                                                                                        round(v_i, 4), round(h, 4),                                                          round(f_i, 4))
-    print(ss)
-    bins.append(b_i)
-# print(ff)
-where_set = [ 'mid']
+
+where_set = [ 'post']
 
 fig, axs = plt.subplots(1, 1, figsize=(15, 4))
 fff = ff[:]
 fff.append(ff[-1])
-axs.step(bins, fff, "g-o", where=where_set[0])
+axs.step(bins, fff,  where=where_set[0])
 axs.grid()
-
-xxx = np.linspace(-1, 125, 100)
-# print(xxx)
 x_poly = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
+# print(len(bins),len(x_poly),len(ff))
 plt.plot(x_poly, ff, 'y', label="polygon")
-plt.scatter(x_poly, ff)
-yyy = [f(ell) for ell in xxx]
-plt.plot(xxx, yyy, 'm', label="analytic function")
 
-# plt.scatter(ff,
-#              bins[:-1])
-# plt.plot(ff,
-#          bins[:-1],
-#          label='poly')
+plt.scatter(x_poly, ff)
+xxx = np.linspace(0.1, 125, 10000)
+yyy = [f(ell) for ell in xxx]
+
+plt.plot(xxx, yyy, 'm', label="analytic function")
 plt.show()
