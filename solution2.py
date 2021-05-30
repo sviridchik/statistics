@@ -37,49 +37,59 @@ def f(y):
     else:
         return 1/(4*y**2)
 
-M = get_m(n)
-h = abs(res[0] - res[-1]) / M
-h = round(h,4)
-# result = []
-j = 0
-a_i = res[0]
-bb = None
-bins = []
-ff = []
-bins.append(a_i)
-for i in range(M):
-    sol = []
 
-    b_i = a_i + h
-    v_i = 0
-    sol.append(a_i)
-    sol.append( b_i)
-    sol.append( v_i)
-    for index in range(len(res)):
-        if res[index] >= a_i and res[index] <= b_i:
-            v_i += 1
-    f_i = v_i / (h * n)
-    sol.append(f_i)
-    ff.append(f_i)
-    ss = "i = {}\tAi = {}\t Bi = {}\tvi = {}\th = {}\tfi = {}\t".format(round(i,4),round(a_i,4),round(b_i,4),round(v_i,4),round(h,4),round(f_i,4))
-    print(ss)
-    bins.append(b_i)
-    a_i = b_i
+def draw_a_table(n):
+    M = get_m(n)
+    h = abs(res[0] - res[-1]) / M
+    h = round(h, 4)
+    # result = []
+    j = 0
+    a_i = res[0]
+    bb = None
+    bins = []
+    ff = []
+    bins.append(a_i)
+    for i in range(M):
+        sol = []
+
+        b_i = a_i + h
+        v_i = 0
+        sol.append(a_i)
+        sol.append( b_i)
+        sol.append( v_i)
+        for index in range(len(res)):
+            if res[index] >= a_i and res[index] <= b_i:
+                v_i += 1
+        f_i = v_i / (h * n)
+        sol.append(f_i)
+        ff.append(f_i)
+        ss = "i = {}\tAi = {}\t Bi = {}\tvi = {}\th = {}\tfi = {}\t".format(round(i,4),round(a_i,4),round(b_i,4),round(v_i,4),round(h,4),round(f_i,4))
+        print(ss)
+        bins.append(b_i)
+        a_i = b_i
+    return ff,bins
+l = draw_a_table(n)
+ff,bins = l[0],l[1]
 
 where_set = [ 'post']
+def draw_gist_and_polygon(ff,bins):
+    fig, axs = plt.subplots(1, 1, figsize=(15, 4))
+    fff = ff[:]
+    fff.append(ff[-1])
+    axs.step(bins, fff,  where=where_set[0])
+    axs.grid()
+    x_poly = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
+    # print(len(bins),len(x_poly),len(ff))
+    plt.plot(x_poly, ff, 'y', label="polygon")
 
-fig, axs = plt.subplots(1, 1, figsize=(15, 4))
-fff = ff[:]
-fff.append(ff[-1])
-axs.step(bins, fff,  where=where_set[0])
-axs.grid()
-x_poly = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
-# print(len(bins),len(x_poly),len(ff))
-plt.plot(x_poly, ff, 'y', label="polygon")
+    plt.scatter(x_poly, ff)
 
-plt.scatter(x_poly, ff)
-xxx = np.linspace(a_y, b_y, 100)
-yyy = [f(ell) for ell in xxx]
+draw_gist_and_polygon(ff,bins)
+def draw_analytic(a_y,b_y):
+    xxx = np.linspace(a_y, b_y, 100)
+    yyy = [f(ell) for ell in xxx]
 
-plt.plot(xxx, yyy, 'm', label="analytic function")
-plt.show()
+    plt.plot(xxx, yyy, 'm', label="analytic function")
+    plt.show()
+
+draw_analytic(a_y,b_y)

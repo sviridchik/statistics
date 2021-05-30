@@ -5,6 +5,7 @@ import numpy as np
 from solutiion import *
 
 n = int(input())
+# n = 1000000
 res = get_n_numbers(n)
 # print(res)
 #
@@ -38,62 +39,74 @@ def f(y):
     else:
         return 1/(4*y**2)
 
-M = get_m(n)
-h = abs(res[0] - res[-1]) / M
-h = round(h,4)
-result = []
-j = 0
-a_i = res[0]
-b_i = (res[M-1]+res[M])/2
-bins = []
-ff = []
-v_i = n / M
-bins.append(a_i)
-bb = None
-for i in range(1,M):
-    h = abs(a_i-b_i)
-    f_i = v_i / (h * n)
-    ff.append(f_i)
-    ss = "i = {:.1f}\tAi = {:.4f}\t Bi = {:.4f}\tvi = {}\th = {:.4f}\tfi = {:.4f}\t".format(round(i,4),a_i,round(b_i,4),round(v_i,4),round(h,4),round(f_i,4))
-    print(ss)
-    bins.append(b_i)
-    a_i = b_i
-    if (i+1)*M+1 > len(res)-1:
+def draw_a_table(n):
+    M = get_m(n)
+    h = abs(res[0] - res[-1]) / M
+    h = round(h,4)
+    result = []
+    j = 0
+    a_i = res[0]
+    b_i = (res[n//(M-1)]+res[n//M])/2
+    bins = []
+    ff = []
+    v_i = n / M
+    bins.append(a_i)
+    bb = None
+    for i in range(1,M):
+        h = abs(a_i-b_i)
+        f_i = v_i / (h * n)
+        ff.append(f_i)
+        ss = "i = {:.1f}\tAi = {:.4f}\t Bi = {:.4f}\tvi = {}\th = {:.4f}\tfi = {:.4f}\t".format(round(i,4),a_i,round(b_i,4),round(v_i,4),round(h,4),round(f_i,4))
+        print(ss)
+        bins.append(b_i)
+        a_i = b_i
+        if (i+1)*M+1 > len(res)-1:
+            b_i = res[-1]
+        else:
+            b_i = (res[(i+1)*(n//M)-1]+res[(i+1)*(n//M)])/2
+
+            # b_i = (res[(i+1)*M-1]+res[(i+1)*M])/2
+        bb = b_i
+    if res[-1] != bins[-1]:
+        i = len(bins)
         b_i = res[-1]
-    else:
-        b_i = (res[(i+1)*M-1]+res[(i+1)*M])/2
-    bb = b_i
-if res[-1] != bins[-1]:
-    i = len(bins)
-    b_i = res[-1]
-    h = abs(a_i - b_i)
-    f_i = v_i / (h * n)
-    ff.append(f_i)
-    # print("aaaaa")
-    ss = "i = {:.1f}\tAi = {:.4f}\t Bi = {:.4f}\tvi = {}\th = {:.4f}\tfi = {:.4f}\t".format(round(i, 4), a_i, round(b_i, 4),
-                                                                                        round(v_i, 4), round(h, 4),                                                          round(f_i, 4))
-    print(ss)
-    bins.append(b_i)
+        h = abs(a_i - b_i)
+        f_i = v_i / (h * n)
+        ff.append(f_i)
+        # print("aaaaa")
+        ss = "i = {:.1f}\tAi = {:.4f}\t Bi = {:.4f}\tvi = {}\th = {:.4f}\tfi = {:.4f}\t".format(round(i, 4), a_i, round(b_i, 4),
+                                                                                            round(v_i, 4), round(h, 4),                                                          round(f_i, 4))
+        print(ss)
+        bins.append(b_i)
+    return ff, bins
 # print(ff)
+l = draw_a_table(n)
+ff,bins = l[0],l[1]
 where_set = [ 'mid']
+def draw_gist_and_polygon(ff,bins):
+    fig, axs = plt.subplots(1, 1, figsize=(15, 4))
+    fff = ff[:]
+    fff.append(ff[-1])
+    axs.step(bins, fff, "g-o", where=where_set[0])
+    axs.grid()
 
-fig, axs = plt.subplots(1, 1, figsize=(15, 4))
-fff = ff[:]
-fff.append(ff[-1])
-axs.step(bins, fff, "g-o", where=where_set[0])
-axs.grid()
 
-xxx = np.linspace(a_y, b_y, 10000)
-# print(xxx)
-x_poly = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
-plt.plot(x_poly, ff, 'y', label="polygon")
-plt.scatter(x_poly, ff)
-yyy = [f(ell) for ell in xxx]
-plt.plot(xxx, yyy, 'm', label="analytic function")
+    # print(xxx)
+    x_poly = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
+    plt.plot(x_poly, ff, 'y', label="polygon")
+    plt.scatter(x_poly, ff)
+    xxx = np.linspace(a_y, b_y, 10000)
+    yyy = [f(ell) for ell in xxx]
+    plt.plot(xxx, yyy, 'm', label="analytic function")
+    plt.show()
+
+draw_gist_and_polygon(ff,bins)
+
+
 
 # plt.scatter(ff,
 #              bins[:-1])
 # plt.plot(ff,
 #          bins[:-1],
 #          label='poly')
-plt.show()
+
