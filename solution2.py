@@ -22,15 +22,15 @@ def get_m(n):
         M = int(sqrt(n))
         return M
     else:
-        M1 = int(3 * log10(n))
+        M1 = int(2 * log10(n))
         M2 = int(3 * log10(n))
-        M3 = int(3 * log10(n))
+        M3 = int(4 * log10(n))
         if M1 % n == 0:
             return M1
-        elif M2 % n == 0:
-            return M2
-        else:
+        elif M3 % n == 0:
             return M3
+        else:
+            return M2
 def f(y):
     if y<a_y or y>b_y:
         return 0
@@ -42,26 +42,19 @@ def draw_a_table(n):
     M = get_m(n)
     h = abs(res[0] - res[-1]) / M
     h = round(h, 4)
-    # result = []
-    j = 0
     a_i = res[0]
-    bb = None
     bins = []
     ff = []
     bins.append(a_i)
     for i in range(M):
-        sol = []
+        # sol = []
 
         b_i = a_i + h
         v_i = 0
-        sol.append(a_i)
-        sol.append( b_i)
-        sol.append( v_i)
         for index in range(len(res)):
             if res[index] >= a_i and res[index] <= b_i:
                 v_i += 1
         f_i = v_i / (h * n)
-        sol.append(f_i)
         ff.append(f_i)
         ss = "i = {}\tAi = {}\t Bi = {}\tvi = {}\th = {}\tfi = {}\t".format(round(i,4),round(a_i,4),round(b_i,4),round(v_i,4),round(h,4),round(f_i,4))
         print(ss)

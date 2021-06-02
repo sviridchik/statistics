@@ -4,9 +4,9 @@ import numpy as np
 
 from solutiion import *
 
-n = int(input())
-# n = 1000000
-res = get_n_numbers(n)
+# n = int(input())
+# # n = 1000000
+# res = get_n_numbers(n)
 # print(res)
 #
 # res = [-6.237 ,-6.229 ,-5.779, -5.139, -4.950 ,-4.919 ,-4.636, -4.560, -4.530, -4.526 ,-4.523 ,-4.511,
@@ -57,7 +57,7 @@ def draw_a_table(n):
         f_i = v_i / (h * n)
         ff.append(f_i)
         ss = "i = {:.1f}\tAi = {:.4f}\t Bi = {:.4f}\tvi = {}\th = {:.4f}\tfi = {:.4f}\t".format(round(i,4),a_i,round(b_i,4),round(v_i,4),round(h,4),round(f_i,4))
-        print(ss)
+        # print(ss)
         bins.append(b_i)
         a_i = b_i
         if (i+1)*M+1 > len(res)-1:
@@ -76,37 +76,54 @@ def draw_a_table(n):
         # print("aaaaa")
         ss = "i = {:.1f}\tAi = {:.4f}\t Bi = {:.4f}\tvi = {}\th = {:.4f}\tfi = {:.4f}\t".format(round(i, 4), a_i, round(b_i, 4),
                                                                                             round(v_i, 4), round(h, 4),                                                          round(f_i, 4))
-        print(ss)
+        # print(ss)
         bins.append(b_i)
-    return ff, bins
-# print(ff)
-l = draw_a_table(n)
-ff,bins = l[0],l[1]
-where_set = [ 'mid']
-def draw_gist_and_polygon(ff,bins):
-    fig, axs = plt.subplots(1, 1, figsize=(15, 4))
-    fff = ff[:]
-    fff.append(ff[-1])
-    axs.step(bins, fff, "g-o", where=where_set[0])
-    axs.grid()
+    return ff, bins, v_i, M
 
 
-    # print(xxx)
-    x_poly = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
-    plt.plot(x_poly, ff, 'y', label="polygon")
-    plt.scatter(x_poly, ff)
-    xxx = np.linspace(a_y, b_y, 10000)
-    yyy = [f(ell) for ell in xxx]
-    plt.plot(xxx, yyy, 'm', label="analytic function")
-    plt.show()
+# ff,bins = l[0],l[1],l[2],l[3]
 
-draw_gist_and_polygon(ff,bins)
+# def calc_kolmogorov(l):
+#     ff, bins, n_i, m = l[0], l[1], l[2], l[3]
+#     max_global = []
+#     h = 0.01
+#     for i in range(len(ff)):
+#         max_local = -1
+#         j = bins[i]
+#         while j <bins[i+1]:
+#             max_tmp = abs(F(bins[i] + j * h) - F(max_local))
+#             if max_tmp > max_local:
+#                 max_local = max_tmp
+#             j+=1
+#         max_global.append(max_local)
+#     print("Колмогоров :{}".format(sqrt(n)*max(max_global))  )
 
 
+def calc_hi_2(l):
+    ff, bins, n_i, m = l[0], l[1], l[2], l[3]
+    pi_star = n_i / n
+    k = m - 1
+    hi_2 = 0
+    for i in range(1, len(bins)):
+        pi = F(bins[i]) - F(bins[i-1])
+        hi_2 += ((pi-pi_star)**2)/(pi)
+    hi_2 = n*hi_2
+    result ={5:[15.1,12.8,11.1],4:[13.3,11.1,9.5],6:[16.8,14.4,12.6]}
+    probability = [99,97.5,95]
+    print(hi_2,k)
+    for i in range(3):
+        if hi_2<result[k][i]:
+            print("{} < {} Следрвательно нет оснований отвергать нулевую гипотезу c вероятностью {}%".format(hi_2,result[k][i],probability[i]))
+            break
 
-# plt.scatter(ff,
-#              bins[:-1])
-# plt.plot(ff,
-#          bins[:-1],
-#          label='poly')
-plt.show()
+
+for o in range(1):
+    # n = int(input())
+    n = 200
+    res = get_n_numbers(n)
+    l = draw_a_table(n)
+    calc_hi_2(l)
+    # calc_kolmogorov(l)
+
+    # 1000 hi2 і графік
+
