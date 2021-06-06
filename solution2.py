@@ -37,9 +37,29 @@ def f(y):
     else:
         return 1/(4*y**2)
 
+def get_chastosti(res,n):
+    data = {}
+    for index in range(len(res)):
+        el = res[index]
+        if el in data:
+            data[el]+=1
+        else:
+            data[el] = index
+    # print(data)
+    xx = []
+    yy = []
+    print(data)
+    for k,v in data.items():
+        xx.append(k)
+        yy.append(v/n)
+
+    return yy
+
+
 
 def draw_a_table(n):
-    M = get_m(n)
+    # M = get_m(n)
+    M = 10
     h = abs(res[0] - res[-1]) / M
     h = round(h, 4)
     a_i = res[0]
@@ -65,7 +85,10 @@ l = draw_a_table(n)
 ff,bins = l[0],l[1]
 
 where_set = [ 'post']
-def draw_gist_and_polygon(ff,bins):
+def draw_gist_and_polygon(ff,bins,res):
+    ch = get_chastosti(res,n)
+
+
     fig, axs = plt.subplots(1, 1, figsize=(15, 4))
     fff = ff[:]
     fff.append(ff[-1])
@@ -73,11 +96,11 @@ def draw_gist_and_polygon(ff,bins):
     axs.grid()
     x_poly = [(bins[i]+bins[i+1])/2 for i in range(len(bins)-1)]
     # print(len(bins),len(x_poly),len(ff))
-    plt.plot(x_poly, ff, 'y', label="polygon")
+    plt.plot(x_poly, ch, 'y', label="polygon")
 
     plt.scatter(x_poly, ff)
 
-draw_gist_and_polygon(ff,bins)
+draw_gist_and_polygon(ff,bins,res)
 def draw_analytic(a_y,b_y):
     xxx = np.linspace(a_y, b_y, 100)
     yyy = [f(ell) for ell in xxx]

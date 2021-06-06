@@ -70,7 +70,7 @@ def mizes(n):
     out = 0
     res = get_n_numbers(n)
     for i in range(len(res)):
-        out+=(F(res[i])-(i-0.5)/n)**2
+        out+=(F(res[i])-((i+1)-0.5)/n)**2
     out += 1/(12*n)
     print("при n = {}".format(n))
     print("Мизеса : {}".format(out))

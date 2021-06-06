@@ -61,10 +61,10 @@ def get_imeric_func(res,n):
     # print(yyy)
     for index in range(len(yy)):
         max_tmp = abs(yy[index] - F(xx[index]))
-        print(max_tmp)
+        # print(max_tmp)
         if max_tmp>max_diff:
             max_diff = max_tmp
-    print(max_diff,sqrt(n))
+    # print(max_diff,sqrt(n))
     const = 1.36
     out = sqrt(n)*max_diff
     print("Kolmogorov :{}".format(sqrt(n)*max_diff))

@@ -101,10 +101,14 @@ def draw_a_table(n):
 
 def calc_hi_2(l):
     ff, bins, n_i, m = l[0], l[1], l[2], l[3]
+    # частота попадания в i-тый интервал;
     pi_star = n_i / n
+
     k = m - 1
     hi_2 = 0
     for i in range(1, len(bins)):
+        # теоретическая вероятность попадания случайной величины в i- тый
+        # интервал при условии, что гипотеза H0 верна
         pi = F(bins[i]) - F(bins[i-1])
         hi_2 += ((pi-pi_star)**2)/(pi)
     hi_2 = n*hi_2

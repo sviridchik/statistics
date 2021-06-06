@@ -59,19 +59,37 @@ def get_imeric_func(res,n):
     for k,v in data.items():
         xx.append(k)
         yy.append(v/n)
+
+    xx.append(-0.1)
+    yy.append(1)
+    xx.insert(0,-1.1)
+    yy.insert(0,0)
+    print(xx)
+    print("y",yy)
     plt.step(xx,yy,'y',label = "imperical function")
     # plt.show()
-    xxx = np.linspace(xx[0],xx[-1] , 10000)
-    print(xx)
+    # xxx = np.linspace(xx[0],xx[-1] , 10000)
+    # xxx.append(-2)
+    xxx = list(np.linspace(xx[0], xx[-1], 10000))
+
+    # print(xx)
     yyy = [F(ell) for ell in xxx]
-    print(yy)
-    print(xxx)
-    print(yyy)
+
+    # yyy.append(0)
+    xxx.insert(0,-1.2)
+    xxx.append(-0.1)
+    #
+    yyy.insert(F(-1.2),0)
+    yyy.append(F(-0.1))
+    # print(F(-0.1))
+    # # print(yy)
+    # print(xxx)
+    # print(yyy)
     plt.plot(xxx, yyy, 'm',label = "analytic function")
     plt.show()
 
 
-#
+# #
 # res = get_n_numbers(n)
 # get_imeric_func(res,n)
 

@@ -24,15 +24,15 @@ def get_m(n):
         M = int(sqrt(n))
         return M
     else:
-        M1 = int(3 * log10(n))
+        M1 = int(2 * log10(n))
         M2 = int(3 * log10(n))
-        M3 = int(3 * log10(n))
+        M3 = int(4 * log10(n))
         if M1 % n == 0:
             return M1
-        elif M2 % n == 0:
-            return M2
-        else:
+        elif M3 % n == 0:
             return M3
+        else:
+            return M2
 def f(y):
     if y<a_y or y>b_y:
         return 0
@@ -49,7 +49,7 @@ def draw_a_table(n):
     b_i = (res[n//(M-1)]+res[n//M])/2
     bins = []
     ff = []
-    v_i = n / M
+    v_i = n // M
     bins.append(a_i)
     bb = None
     for i in range(1,M):
